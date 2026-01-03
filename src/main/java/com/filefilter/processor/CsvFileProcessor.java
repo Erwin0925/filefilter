@@ -2,7 +2,9 @@ package com.filefilter.processor;
 
 import com.filefilter.processor.base.BaseProcessor;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
+import com.opencsv.ICSVParser;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -39,7 +41,14 @@ public class CsvFileProcessor extends BaseProcessor {
         String rejectedFilePath = getRejectedOutputPath();
 
         // Open CSV reader and writers
-        try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream, config.getEncoding()));
+        // Configure reader to NOT treat backslash as escape character (preserve literal backslashes)
+        try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(inputStream, config.getEncoding()))
+                     .withCSVParser(new com.opencsv.CSVParserBuilder()
+                             .withSeparator(ICSVParser.DEFAULT_SEPARATOR)
+                             .withQuoteChar(ICSVParser.DEFAULT_QUOTE_CHARACTER)
+                             .withEscapeChar(ICSVParser.NULL_CHARACTER)  // No escape character - backslash is literal
+                             .build())
+                     .build();
              CSVWriter validWriter = new CSVWriter(new FileWriter(outputFilePath),
                      CSVWriter.DEFAULT_SEPARATOR,
                      CSVWriter.DEFAULT_QUOTE_CHARACTER,
