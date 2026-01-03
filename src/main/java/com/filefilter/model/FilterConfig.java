@@ -11,7 +11,7 @@ public class FilterConfig {
 
     /**
      * Input file path (relative to resources/sourcefile/)
-     * Example: "data.csv"
+     * Example: "SampleData.csv"
      */
     private String inputFile;
 
@@ -52,11 +52,4 @@ public class FilterConfig {
      * Output configuration
      */
     private OutputConfig output;
-
-    /**
-     * Get file type in uppercase for consistent comparison
-     */
-    public String getFileTypeUpper() {
-        return fileType != null ? fileType.toUpperCase() : null;
-    }
 }

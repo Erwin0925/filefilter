@@ -34,9 +34,9 @@ public class CsvFileProcessor extends BaseProcessor {
         // Create output directory if not exists
         Files.createDirectories(Paths.get("output"));
 
-        // Prepare output file paths
-        String outputFilePath = "output/" + config.getOutput().getOutputFileName() + ".csv";
-        String rejectedFilePath = "output/" + config.getOutput().getRejectedFileName() + ".csv";
+        // Prepare output file paths (auto-generated from input filename)
+        String outputFilePath = getFilteredOutputPath();
+        String rejectedFilePath = getRejectedOutputPath();
 
         // Open CSV reader and writers
         try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream, config.getEncoding()));

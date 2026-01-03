@@ -4,6 +4,7 @@ import com.filefilter.model.FilterConfig;
 import com.filefilter.factory.FileProcessorFactory;
 import com.filefilter.processor.base.FileProcessor;
 import com.filefilter.util.ConfigLoader;
+import com.filefilter.util.FileNameUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -67,15 +68,6 @@ public class Main {
         if (config.getOutput() == null) {
             throw new IllegalArgumentException("Output configuration is required");
         }
-
-        if (config.getOutput().getOutputFileName() == null || config.getOutput().getOutputFileName().isEmpty()) {
-            throw new IllegalArgumentException("Output file name is required in configuration");
-        }
-
-        if (config.getOutput().getNeedRejectedData() &&
-                (config.getOutput().getRejectedFileName() == null || config.getOutput().getRejectedFileName().isEmpty())) {
-            throw new IllegalArgumentException("Rejected file name is required when needRejectedData is true");
-        }
     }
 
     /**
@@ -98,30 +90,16 @@ public class Main {
     }
 
     /**
-     * Get output file name with extension
+     * Get output file name with extension (auto-generated from input filename)
      */
     private static String getOutputFileName(FilterConfig config) {
-        String extension = getFileExtension(config);
-        return config.getOutput().getOutputFileName() + extension;
+        return FileNameUtil.getFilteredFileName(config.getInputFile());
     }
 
     /**
-     * Get rejected file name with extension
+     * Get rejected file name with extension (auto-generated from input filename)
      */
     private static String getRejectedFileName(FilterConfig config) {
-        String extension = getFileExtension(config);
-        return config.getOutput().getRejectedFileName() + extension;
-    }
-
-    /**
-     * Get file extension based on file type
-     */
-    private static String getFileExtension(FilterConfig config) {
-        return switch (config.getFileTypeUpper()) {
-            case "CSV" -> ".csv";
-            case "EXCEL", "XLSX", "XLS" -> ".xlsx";
-            case "TXT" -> ".txt";
-            default -> "";
-        };
+        return FileNameUtil.getRejectedFileName(config.getInputFile());
     }
 }

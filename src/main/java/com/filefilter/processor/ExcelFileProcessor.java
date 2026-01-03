@@ -38,9 +38,9 @@ public class ExcelFileProcessor extends BaseProcessor {
         // Create output directory if not exists
         Files.createDirectories(Paths.get("output"));
 
-        // Prepare output file paths
-        String outputFilePath = "output/" + config.getOutput().getOutputFileName() + ".xlsx";
-        String rejectedFilePath = "output/" + config.getOutput().getRejectedFileName() + ".xlsx";
+        // Prepare output file paths (auto-generated from input filename)
+        String outputFilePath = getFilteredOutputPath();
+        String rejectedFilePath = getRejectedOutputPath();
 
         // Create streaming workbooks for output
         SXSSFWorkbook validWorkbook = new SXSSFWorkbook(100); // Keep 100 rows in memory

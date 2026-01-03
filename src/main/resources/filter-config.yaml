@@ -2,7 +2,7 @@
 # This configuration defines how files should be filtered and validated
 
 # Input file path (relative to src/main/resources/sourcefile/)
-inputFile: "data.csv"
+inputFile: "SampleData.csv"
 
 # File type: CSV, EXCEL, TXT (case-insensitive)
 fileType: CSV
@@ -15,6 +15,7 @@ delimiter: ","
 encoding: UTF-8
 
 # Number of header lines to skip (headers will be copied to output files)
+# Set to 0 if there is no header
 skipHeaderLines: 1
 
 # Expected total number of columns
@@ -43,12 +44,8 @@ validations:
     regex: ".{12,13}"
 
 # Output configuration
+# Output filenames are auto-generated from input filename:
+#   Input: SampleData.csv → Output: data_Filtered.csv, data_Rejected.csv
 output:
-  # Base name for filtered output file (extension auto-appended)
-  outputFileName: "FilteredData"
-
   # Whether to write rejected records to a separate file
   needRejectedData: true
-
-  # Base name for rejected data file (only used if needRejectedData is true)
-  rejectedFileName: "RejectedData"
