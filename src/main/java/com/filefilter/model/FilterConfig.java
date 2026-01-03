@@ -11,7 +11,7 @@ public class FilterConfig {
 
     /**
      * Input file path (relative to resources/sourcefile/)
-     * Example: "data.csv"
+     * Example: "SampleData.csv"
      */
     private String inputFile;
 

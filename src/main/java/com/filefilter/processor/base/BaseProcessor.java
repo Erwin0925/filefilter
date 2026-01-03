@@ -77,7 +77,7 @@ public abstract class BaseProcessor implements FileProcessor {
 
     /**
      * Generate output filename from input filename
-     * Example: "data.csv" → "output/data_Filtered.csv"
+     * Example: "SampleData.csv" → "output/data_Filtered.csv"
      *
      * @return Full path to filtered output file
      */
@@ -87,7 +87,7 @@ public abstract class BaseProcessor implements FileProcessor {
 
     /**
      * Generate rejected filename from input filename
-     * Example: "data.csv" → "output/data_Rejected.csv"
+     * Example: "SampleData.csv" → "output/data_Rejected.csv"
      *
      * @return Full path to rejected output file
      */

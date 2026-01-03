@@ -2,7 +2,7 @@
 # This configuration defines how files should be filtered and validated
 
 # Input file path (relative to src/main/resources/sourcefile/)
-inputFile: "data.csv"
+inputFile: "SampleData.csv"
 
 # File type: CSV, EXCEL, TXT (case-insensitive)
 fileType: CSV
@@ -44,7 +44,7 @@ validations:
 
 # Output configuration
 # Output filenames are auto-generated from input filename:
-#   Input: data.csv → Output: data_Filtered.csv, data_Rejected.csv
+#   Input: SampleData.csv → Output: data_Filtered.csv, data_Rejected.csv
 output:
   # Whether to write rejected records to a separate file
   needRejectedData: true

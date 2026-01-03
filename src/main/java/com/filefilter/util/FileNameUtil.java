@@ -12,7 +12,7 @@ public class FileNameUtil {
 
     /**
      * Get file name without extension
-     * Example: "data.csv" -> "data"
+     * Example: "SampleData.csv" -> "data"
      */
     public static String getFileNameWithoutExtension(String fileName) {
         int lastDotIndex = fileName.lastIndexOf('.');
@@ -21,7 +21,7 @@ public class FileNameUtil {
 
     /**
      * Get file extension from filename
-     * Example: "data.csv" -> ".csv"
+     * Example: "SampleData.csv" -> ".csv"
      */
     public static String getFileExtension(String fileName) {
         int lastDotIndex = fileName.lastIndexOf('.');
@@ -30,7 +30,7 @@ public class FileNameUtil {
 
     /**
      * Generate filtered output file name
-     * Example: "data.csv" -> "data_Filtered.csv"
+     * Example: "SampleData.csv" -> "data_Filtered.csv"
      */
     public static String getFilteredFileName(String inputFileName) {
         String baseName = getFileNameWithoutExtension(inputFileName);
@@ -40,7 +40,7 @@ public class FileNameUtil {
 
     /**
      * Generate rejected output file name
-     * Example: "data.csv" -> "data_Rejected.csv"
+     * Example: "SampleData.csv" -> "data_Rejected.csv"
      */
     public static String getRejectedFileName(String inputFileName) {
         String baseName = getFileNameWithoutExtension(inputFileName);
@@ -50,7 +50,7 @@ public class FileNameUtil {
 
     /**
      * Generate filtered output file path with output directory
-     * Example: "data.csv" -> "output/data_Filtered.csv"
+     * Example: "SampleData.csv" -> "output/data_Filtered.csv"
      */
     public static String getFilteredFilePath(String inputFileName) {
         return "output/" + getFilteredFileName(inputFileName);
@@ -58,7 +58,7 @@ public class FileNameUtil {
 
     /**
      * Generate rejected output file path with output directory
-     * Example: "data.csv" -> "output/data_Rejected.csv"
+     * Example: "SampleData.csv" -> "output/data_Rejected.csv"
      */
     public static String getRejectedFilePath(String inputFileName) {
         return "output/" + getRejectedFileName(inputFileName);

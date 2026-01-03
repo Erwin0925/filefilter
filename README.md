@@ -87,7 +87,7 @@ src/main/resources/sourcefile/data.csv
 Edit `src/main/resources/filter-config.yaml`:
 
 ```yaml
-inputFile: "data.csv"
+inputFile: "SampleData.csv"
 fileType: CSV
 skipHeaderLines: 1
 expectedTotalColumn: 10
