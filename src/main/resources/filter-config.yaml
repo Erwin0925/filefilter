@@ -43,12 +43,8 @@ validations:
     regex: ".{12,13}"
 
 # Output configuration
+# Output filenames are auto-generated from input filename:
+#   Input: data.csv → Output: data_Filtered.csv, data_Rejected.csv
 output:
-  # Base name for filtered output file (extension auto-appended)
-  outputFileName: "FilteredData"
-
   # Whether to write rejected records to a separate file
   needRejectedData: true
-
-  # Base name for rejected data file (only used if needRejectedData is true)
-  rejectedFileName: "RejectedData"

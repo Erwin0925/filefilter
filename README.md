@@ -10,19 +10,67 @@ A Java application for filtering and validating data files (CSV, Excel, TXT) bas
   - Value-in-list validation (enum-like checking)
   - Regex pattern matching
   - Column count validation
-- **High performance**:
-  - Streaming processing for large files (up to 2M+ rows)
-  - Buffered I/O with 64KB buffers
-  - Apache POI streaming for Excel files
-  - Memory-efficient design
-- **Dual output**: Separate files for valid and rejected records
-- **Console logging**: Real-time logging with performance metrics
-- **Clean architecture**: Template Method Pattern, Factory Pattern, separation of concerns
 
 ## Prerequisites
 
 - **Java 21** or higher
 - **Maven 3.8+** (for building)
+
+## Project Setup (Maven Configuration)
+
+### Step 1: Create Another New .m2 Directory
+
+Create a new directory for this project's Maven repository:
+
+```
+# Choose a location (examples):
+# Option 1: In your user directory
+C:/Users/YOUR_USERNAME/Own/.m2
+```
+
+### Step 2: Create settings.xml
+
+Create a `settings.xml` file inside your new `.m2` directory with the following content:
+
+**File:** `C:/Users/YOUR_USERNAME/Own/.m2/settings.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+          http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <!-- Local repository path for this project -->
+    <localRepository>C:/Users/YOUR_USERNAME/Own/.m2/repository</localRepository>
+
+    <!-- Use Maven Central (default public repository) -->
+    <mirrors>
+        <mirror>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+
+</settings>
+```
+
+**Important:** Replace `YOUR_USERNAME` with your actual username (e.g., `001535`)
+
+### Step 3: Configure Maven to Use Custom settings.xml
+
+**IntelliJ IDEA:**
+1. File → Settings (Ctrl+Alt+S)
+2. Build, Execution, Deployment → Build Tools → Maven
+3. User settings file: `C:/Users/YOUR_USERNAME/Own/.m2/settings.xml` (check "Override")
+4. Local repository: `C:/Users/YOUR_USERNAME/Own/.m2/repository`
+5. Click Apply → OK
+
+**Why This is Needed:**
+- Isolates dependencies from other projects
+- Prevents conflicts with company's default Maven settings
 
 ## Quick Start
 
@@ -53,9 +101,7 @@ validations:
     valueInList: ["101", "110", "040"]
 
 output:
-  outputFileName: "FilteredData"
-  needRejectedData: true
-  rejectedFileName: "RejectedData"
+  needRejectedData: true  # Output filenames auto-generated from input
 ```
 
 ### 3. Run the Application

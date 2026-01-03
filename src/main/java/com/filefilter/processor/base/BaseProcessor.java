@@ -1,6 +1,7 @@
 package com.filefilter.processor.base;
 
 import com.filefilter.model.FilterConfig;
+import com.filefilter.util.FileNameUtil;
 import com.filefilter.validator.ValidationEngine;
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,6 +74,26 @@ public abstract class BaseProcessor implements FileProcessor {
      * @return Name of the processor
      */
     protected abstract String getProcessorName();
+
+    /**
+     * Generate output filename from input filename
+     * Example: "data.csv" → "output/data_Filtered.csv"
+     *
+     * @return Full path to filtered output file
+     */
+    protected String getFilteredOutputPath() {
+        return FileNameUtil.getFilteredFilePath(config.getInputFile());
+    }
+
+    /**
+     * Generate rejected filename from input filename
+     * Example: "data.csv" → "output/data_Rejected.csv"
+     *
+     * @return Full path to rejected output file
+     */
+    protected String getRejectedOutputPath() {
+        return FileNameUtil.getRejectedFilePath(config.getInputFile());
+    }
 
     /**
      * Log process start

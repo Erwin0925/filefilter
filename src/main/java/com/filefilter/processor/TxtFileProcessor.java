@@ -33,9 +33,9 @@ public class TxtFileProcessor extends BaseProcessor {
         // Create output directory if not exists
         Files.createDirectories(Paths.get("output"));
 
-        // Prepare output file paths
-        String outputFilePath = "output/" + config.getOutput().getOutputFileName() + ".txt";
-        String rejectedFilePath = "output/" + config.getOutput().getRejectedFileName() + ".txt";
+        // Prepare output file paths (auto-generated from input filename)
+        String outputFilePath = getFilteredOutputPath();
+        String rejectedFilePath = getRejectedOutputPath();
 
         // Get delimiter (escape special regex characters)
         String delimiter = config.getDelimiter();
