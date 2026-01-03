@@ -38,4 +38,4 @@ output/
 
 ### Input Data Files ###
 src/main/resources/sourcefile/
-src/main/resources/sourcefile/filter-config.yaml
+src/main/resources/filter-config.yaml
