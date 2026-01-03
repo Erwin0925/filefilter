@@ -1,2 +1,60 @@
-/mvnw text eol=lf
+# Auto detect text files and normalize line endings to LF in repository
+* text=auto
+
+# Java source files
+*.java text diff=java eol=lf
+*.kt text diff=kotlin eol=lf
+*.groovy text diff=java eol=lf
+
+# XML, YAML, JSON, Properties
+*.xml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.properties text eol=lf
+
+# Maven
+pom.xml text eol=lf
+
+# Markdown and text files
+*.md text eol=lf
+*.txt text eol=lf
+
+# Shell scripts (always LF)
+*.sh text eol=lf
+
+# Windows scripts (always CRLF)
 *.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files (don't convert)
+*.jar binary
+*.war binary
+*.class binary
+*.dll binary
+*.exe binary
+*.so binary
+*.dylib binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+
+# Excel files
+*.xlsx binary
+*.xls binary
+*.xlsm binary
+
+# CSV files (can be text, platform-specific)
+*.csv text eol=lf
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
