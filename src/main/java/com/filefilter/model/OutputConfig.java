@@ -1,4 +1,4 @@
-package com.filefilter.config;
+package com.filefilter.model;
 
 import lombok.Data;
 

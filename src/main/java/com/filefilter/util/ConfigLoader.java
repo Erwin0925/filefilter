@@ -1,6 +1,6 @@
 package com.filefilter.util;
 
-import com.filefilter.config.FilterConfig;
+import com.filefilter.model.FilterConfig;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;

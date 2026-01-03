@@ -1,6 +1,6 @@
 package com.filefilter.processor;
 
-import com.filefilter.base.BaseProcessor;
+import com.filefilter.processor.base.BaseProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;

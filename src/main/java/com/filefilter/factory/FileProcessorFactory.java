@@ -1,6 +1,7 @@
 package com.filefilter.factory;
 
 import com.filefilter.processor.*;
+import com.filefilter.processor.base.FileProcessor;
 
 import java.util.*;
 import java.util.function.Supplier;

@@ -1,6 +1,6 @@
 package com.filefilter.processor;
 
-import com.filefilter.base.BaseProcessor;
+import com.filefilter.processor.base.BaseProcessor;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import lombok.extern.slf4j.Slf4j;

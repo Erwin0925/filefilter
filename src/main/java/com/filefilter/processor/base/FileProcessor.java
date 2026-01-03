@@ -1,6 +1,6 @@
-package com.filefilter.processor;
+package com.filefilter.processor.base;
 
-import com.filefilter.config.FilterConfig;
+import com.filefilter.model.FilterConfig;
 
 /**
  * Interface for file processors

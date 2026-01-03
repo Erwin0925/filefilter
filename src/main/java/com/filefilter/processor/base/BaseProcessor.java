@@ -1,7 +1,6 @@
-package com.filefilter.base;
+package com.filefilter.processor.base;
 
-import com.filefilter.config.FilterConfig;
-import com.filefilter.processor.FileProcessor;
+import com.filefilter.model.FilterConfig;
 import com.filefilter.validator.ValidationEngine;
 import lombok.extern.slf4j.Slf4j;
 

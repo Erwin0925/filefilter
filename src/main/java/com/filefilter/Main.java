@@ -1,8 +1,8 @@
 package com.filefilter;
 
-import com.filefilter.config.FilterConfig;
+import com.filefilter.model.FilterConfig;
 import com.filefilter.factory.FileProcessorFactory;
-import com.filefilter.processor.FileProcessor;
+import com.filefilter.processor.base.FileProcessor;
 import com.filefilter.util.ConfigLoader;
 import lombok.extern.slf4j.Slf4j;
 

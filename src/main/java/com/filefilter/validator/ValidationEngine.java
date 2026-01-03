@@ -1,10 +1,9 @@
 package com.filefilter.validator;
 
-import com.filefilter.config.FilterConfig;
-import com.filefilter.config.ValidationRule;
+import com.filefilter.model.FilterConfig;
+import com.filefilter.model.ValidationRule;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
