@@ -10,17 +10,11 @@ import lombok.extern.slf4j.Slf4j;
  * Provides automatic logging and exception handling for all processors
  *
  * Child classes only need to:
- * 1. Override doProcess() - implement business logic
+ * 1. Override doProcess() - implement business logic and return ProcessingResult
  * 2. Override getProcessorName() - provide processor name for logging
  */
 @Slf4j
 public abstract class BaseProcessor implements FileProcessor {
-
-    protected long totalRecords = 0;
-    protected long successRecords = 0;
-    protected long rejectRecords = 0;
-    protected ValidationEngine validationEngine;
-    protected FilterConfig config;
 
     /**
      * Template method - defines the processing algorithm skeleton
@@ -37,23 +31,38 @@ public abstract class BaseProcessor implements FileProcessor {
         long startTime = System.currentTimeMillis();
         String processorName = getProcessorName();
 
-        // Initialize config and validation engine
-        this.config = config;
-        this.validationEngine = new ValidationEngine(config);
+        // Create validation engine for this processing call
+        ValidationEngine validationEngine = new ValidationEngine(config);
 
         try {
             // Step 1: Log start
             logProcessStart(processorName);
 
-            // Step 2: Execute child-specific logic (no exception handling needed in child)
-            doProcess();
+            // Step 2: Execute child-specific logic
+            ProcessingResult result = doProcess(config, validationEngine);
 
-            // Step 3: Log completion with success
-            logProcessComplete(processorName, startTime, true, null);
+            // Step 3: Add timing information and log completion
+            long timeTaken = System.currentTimeMillis() - startTime;
+            ProcessingResult finalResult = ProcessingResult.builder()
+                    .totalRecords(result.getTotalRecords())
+                    .successRecords(result.getSuccessRecords())
+                    .rejectRecords(result.getRejectRecords())
+                    .processingTimeMs(timeTaken)
+                    .success(true)
+                    .build();
+
+            logProcessComplete(processorName, finalResult);
 
         } catch (Exception e) {
             // Step 3 (error case): Log completion with failure
-            logProcessComplete(processorName, startTime, false, e);
+            long timeTaken = System.currentTimeMillis() - startTime;
+            ProcessingResult errorResult = ProcessingResult.builder()
+                    .processingTimeMs(timeTaken)
+                    .success(false)
+                    .error(e)
+                    .build();
+
+            logProcessComplete(processorName, errorResult);
             throw new RuntimeException("Processing failed in " + processorName, e);
         }
     }
@@ -61,11 +70,14 @@ public abstract class BaseProcessor implements FileProcessor {
     /**
      * Child classes MUST implement this method
      * Focus only on business logic - no logging, no exception handling needed
-     * Config and ValidationEngine are available as protected fields
      *
+     * @param config Configuration for processing
+     * @param validationEngine Engine for validating records
+     * @return ProcessingResult containing statistics (totalRecords, successRecords, rejectRecords)
      * @throws Exception if any error occurs during processing
      */
-    protected abstract void doProcess() throws Exception;
+    protected abstract ProcessingResult doProcess(FilterConfig config,
+                                                   ValidationEngine validationEngine) throws Exception;
 
     /**
      * Child classes MUST provide processor name for logging
@@ -79,9 +91,10 @@ public abstract class BaseProcessor implements FileProcessor {
      * Generate output filename from input filename
      * Example: "SampleData.csv" → "output/data_Filtered.csv"
      *
+     * @param config Configuration containing input file name
      * @return Full path to filtered output file
      */
-    protected String getFilteredOutputPath() {
+    protected String getFilteredOutputPath(FilterConfig config) {
         return FileNameUtil.getFilteredFilePath(config.getInputFile());
     }
 
@@ -89,9 +102,10 @@ public abstract class BaseProcessor implements FileProcessor {
      * Generate rejected filename from input filename
      * Example: "SampleData.csv" → "output/data_Rejected.csv"
      *
+     * @param config Configuration containing input file name
      * @return Full path to rejected output file
      */
-    protected String getRejectedOutputPath() {
+    protected String getRejectedOutputPath(FilterConfig config) {
         return FileNameUtil.getRejectedFilePath(config.getInputFile());
     }
 
@@ -105,29 +119,25 @@ public abstract class BaseProcessor implements FileProcessor {
     /**
      * Log process completion with statistics
      */
-    private void logProcessComplete(String processorName, long startTime,
-                                     boolean success, Exception error) {
-        long endTime = System.currentTimeMillis();
-        long timeTaken = endTime - startTime;
-
-        if (success) {
+    private void logProcessComplete(String processorName, ProcessingResult result) {
+        if (result.isSuccess()) {
             // Detailed logs
-            log.info("Processing completed in {}ms", timeTaken);
-            log.info("Total records: {}", totalRecords);
-            log.info("Valid records: {}", successRecords);
-            log.info("Rejected records: {}", rejectRecords);
+            log.info("Processing completed in {}ms", result.getProcessingTimeMs());
+            log.info("Total records: {}", result.getTotalRecords());
+            log.info("Valid records: {}", result.getSuccessRecords());
+            log.info("Rejected records: {}", result.getRejectRecords());
 
             // Overall summary (condensed format)
             log.info("{}, {}ms, totalRecords={}, successRecord={}, rejectRecord={}, success=true",
-                    processorName, timeTaken, totalRecords, successRecords, rejectRecords);
+                    processorName, result.getProcessingTimeMs(), result.getTotalRecords(),
+                    result.getSuccessRecords(), result.getRejectRecords());
         } else {
             // Error logs
-            log.error("Processing failed in {}ms", timeTaken);
-            log.error("Error: {}", error != null ? error.getMessage() : "Unknown error");
+            log.error("Processing failed in {}ms", result.getProcessingTimeMs());
+            log.error("Error: {}", result.getError() != null ? result.getError().getMessage() : "Unknown error");
 
             // Overall summary with failure
-            log.error("{}, {}ms, totalRecords={}, successRecord={}, rejectRecord={}, success=false",
-                    processorName, timeTaken, totalRecords, successRecords, rejectRecords);
+            log.error("{}, {}ms, success=false", processorName, result.getProcessingTimeMs());
         }
     }
 }

@@ -1,6 +1,9 @@
 package com.filefilter.processor;
 
+import com.filefilter.model.FilterConfig;
 import com.filefilter.processor.base.BaseProcessor;
+import com.filefilter.processor.base.ProcessingResult;
+import com.filefilter.validator.ValidationEngine;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -26,7 +29,12 @@ public class ExcelFileProcessor extends BaseProcessor {
     }
 
     @Override
-    protected void doProcess() throws Exception {
+    protected ProcessingResult doProcess(FilterConfig config, ValidationEngine validationEngine) throws Exception {
+        // Local variables for thread-safe counter tracking
+        long totalRecords = 0;
+        long successRecords = 0;
+        long rejectRecords = 0;
+
         // Get input stream from resources
         InputStream inputStream = getClass().getClassLoader()
                 .getResourceAsStream("sourcefile/" + config.getInputFile());
@@ -39,8 +47,8 @@ public class ExcelFileProcessor extends BaseProcessor {
         Files.createDirectories(Paths.get("output"));
 
         // Prepare output file paths (auto-generated from input filename)
-        String outputFilePath = getFilteredOutputPath();
-        String rejectedFilePath = getRejectedOutputPath();
+        String outputFilePath = getFilteredOutputPath(config);
+        String rejectedFilePath = getRejectedOutputPath(config);
 
         // Create streaming workbooks for output
         SXSSFWorkbook validWorkbook = new SXSSFWorkbook(100); // Keep 100 rows in memory
@@ -105,6 +113,13 @@ public class ExcelFileProcessor extends BaseProcessor {
                 rejectedWorkbook.close();
             }
         }
+
+        // Return immutable result with statistics
+        return ProcessingResult.builder()
+                .totalRecords(totalRecords)
+                .successRecords(successRecords)
+                .rejectRecords(rejectRecords)
+                .build();
     }
 
     /**
