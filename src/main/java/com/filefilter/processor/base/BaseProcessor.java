@@ -89,24 +89,34 @@ public abstract class BaseProcessor implements FileProcessor {
 
     /**
      * Generate output filename from input filename
-     * Example: "SampleData.csv" → "output/data_Filtered.csv"
+     * Supports custom filename from config.getOutput().getFilteredFileName()
+     * Example: "SampleData.csv" → "output/data_Filtered.csv" (default)
+     * Example: customFileName="myOutput" → "output/myOutput.csv"
      *
-     * @param config Configuration containing input file name
+     * @param config Configuration containing input file name and optional custom filename
      * @return Full path to filtered output file
      */
     protected String getFilteredOutputPath(FilterConfig config) {
-        return FileNameUtil.getFilteredFilePath(config.getInputFile());
+        String customFileName = config.getOutput() != null
+            ? config.getOutput().getFilteredFileName()
+            : null;
+        return FileNameUtil.getFilteredFilePath(config.getInputFile(), customFileName);
     }
 
     /**
      * Generate rejected filename from input filename
-     * Example: "SampleData.csv" → "output/data_Rejected.csv"
+     * Supports custom filename from config.getOutput().getRejectedFileName()
+     * Example: "SampleData.csv" → "output/data_Rejected.csv" (default)
+     * Example: customFileName="myRejected" → "output/myRejected.csv"
      *
-     * @param config Configuration containing input file name
+     * @param config Configuration containing input file name and optional custom filename
      * @return Full path to rejected output file
      */
     protected String getRejectedOutputPath(FilterConfig config) {
-        return FileNameUtil.getRejectedFilePath(config.getInputFile());
+        String customFileName = config.getOutput() != null
+            ? config.getOutput().getRejectedFileName()
+            : null;
+        return FileNameUtil.getRejectedFilePath(config.getInputFile(), customFileName);
     }
 
     /**

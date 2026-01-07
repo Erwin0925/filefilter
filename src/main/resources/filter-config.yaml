@@ -49,3 +49,5 @@ validations:
 output:
   # Whether to write rejected records to a separate file
   needRejectedData: true
+  filteredFileName: random
+  rejectedFileName: random222

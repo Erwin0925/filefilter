@@ -57,10 +57,44 @@ public class FileNameUtil {
     }
 
     /**
+     * Generate filtered output file path with custom filename support
+     * If customFileName is null, uses default auto-generation
+     * Example: customFileName="myOutput", inputFileName="SampleData.csv" -> "output/myOutput.csv"
+     *
+     * @param inputFileName Input file name (for extension extraction)
+     * @param customFileName Custom filename without extension (nullable)
+     * @return Full path to filtered output file
+     */
+    public static String getFilteredFilePath(String inputFileName, String customFileName) {
+        if (customFileName != null && !customFileName.trim().isEmpty()) {
+            String extension = getFileExtension(inputFileName);
+            return "output/" + customFileName + extension;
+        }
+        return getFilteredFilePath(inputFileName);
+    }
+
+    /**
      * Generate rejected output file path with output directory
      * Example: "SampleData.csv" -> "output/data_Rejected.csv"
      */
     public static String getRejectedFilePath(String inputFileName) {
         return "output/" + getRejectedFileName(inputFileName);
+    }
+
+    /**
+     * Generate rejected output file path with custom filename support
+     * If customFileName is null, uses default auto-generation
+     * Example: customFileName="myRejected", inputFileName="SampleData.csv" -> "output/myRejected.csv"
+     *
+     * @param inputFileName Input file name (for extension extraction)
+     * @param customFileName Custom filename without extension (nullable)
+     * @return Full path to rejected output file
+     */
+    public static String getRejectedFilePath(String inputFileName, String customFileName) {
+        if (customFileName != null && !customFileName.trim().isEmpty()) {
+            String extension = getFileExtension(inputFileName);
+            return "output/" + customFileName + extension;
+        }
+        return getRejectedFilePath(inputFileName);
     }
 }
